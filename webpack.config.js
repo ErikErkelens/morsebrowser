@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -48,6 +49,13 @@ module.exports = {
         Buffer: ['buffer', 'Buffer']
       }
     ),
+    new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true,
+      maximumFileSizeToCacheInBytes: 5000000
+    }),
     /* leaving this for reference but switched to import rather than fetching these
     new CopyPlugin({
       patterns: [
