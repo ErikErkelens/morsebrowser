@@ -49,13 +49,19 @@ module.exports = {
         Buffer: ['buffer', 'Buffer']
       }
     ),
-    new WorkboxPlugin.GenerateSW({
-      // these options encourage the ServiceWorkers to get in there fast
-      // and not allow any straggling "old" SWs to hang around
-      clientsClaim: true,
-      skipWaiting: true,
-      maximumFileSizeToCacheInBytes: 5000000
+    new WorkboxPlugin.InjectManifest({
+      swSrc: path.resolve(__dirname, 'src/sw.js'),
+      maximumFileSizeToCacheInBytes: 10000000
     }),
+    // new WorkboxPlugin.GenerateSW({
+    //   // these options encourage the ServiceWorkers to get in there fast
+    //   // and not allow any straggling "old" SWs to hang around
+    //   chunks: ['bundle'],
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    //   maximumFileSizeToCacheInBytes: 20000000,
+    //   cleanupOutdatedCaches: true
+    // }),
     /* leaving this for reference but switched to import rather than fetching these
     new CopyPlugin({
       patterns: [
